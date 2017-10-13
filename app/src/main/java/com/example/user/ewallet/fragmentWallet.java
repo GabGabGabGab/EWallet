@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.os.Bundle;
+import android.widget.TextView;
 
 /**
  * Created by Gabb on 11/10/2017.
@@ -12,6 +13,8 @@ import android.os.Bundle;
 
 public class fragmentWallet extends Fragment {
 
+    TextView tvBalance;
+    public static boolean allowRefresh;
 
     public static fragmentWallet newInstance() {
         fragmentWallet fragment = new fragmentWallet();
@@ -24,8 +27,27 @@ public class fragmentWallet extends Fragment {
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        View inflatedView = inflater.inflate(R.layout.fragment_wallet, container, false);
+        tvBalance = (TextView) inflatedView.findViewById(R.id.tvBalance);
+        tvBalance.setText(String.format("RM %.2f" ,MainActivity.balance ));
+        allowRefresh=false;
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_wallet, container, false);}
+        return inflatedView;
+
+
+    }
+
+    public void onResume() {
+        super.onResume();
+        if (allowRefresh)
+        {
+            allowRefresh = false;
+            tvBalance.setText(String.format("RM %.2f" ,MainActivity.balance ));
+            getFragmentManager().beginTransaction().detach(this).attach(this).commit();
+        }
+    }
 
 
 }

@@ -31,6 +31,7 @@ public class login extends AppCompatActivity {
     String walletID;
     Double balance;
     int loyaltyPoint;
+    String loginPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +95,7 @@ public class login extends AppCompatActivity {
                                         walletID = WalletID;
                                         balance = jsonObject.getDouble("Balance");
                                         loyaltyPoint = jsonObject.getInt("LoyaltyPoint");
+                                        loginPassword = jsonObject.getString("LoginPassword");
                                         Toast.makeText(getApplicationContext(), "Welcome, "+walletID+".", Toast.LENGTH_LONG).show();
                                         goToMain();
                                     } else {
@@ -150,6 +152,7 @@ public class login extends AppCompatActivity {
         intent.putExtra("walletID",walletID);
         intent.putExtra("balance",balance);
         intent.putExtra("loyaltyPoint",loyaltyPoint);
+        intent.putExtra("loginPassword",loginPassword);
         startActivity(intent);
     }
 
