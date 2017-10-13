@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">EWallet</string>
+    <string name="btm_wallet">Wallet Balance</string>
+    <string name="btm_fund">Add Fund</string>
+    <string name="btn_showQR">Show QR Code</string>
+    <string name="btn_scanQR">Scan QR Code</string>
+    <string name="btnTopUp">Add Fund</string>
+    <string name="btnChangeCard">Change Card</string>
+    <string name="btnConfirm">Confirm</string>
+    <string name="btnCancel">Cancel</string>
+    <string name="LoginWalletID">WalletID</string>
+    <string name="LoginPassword">Password</string>
+</resources>
