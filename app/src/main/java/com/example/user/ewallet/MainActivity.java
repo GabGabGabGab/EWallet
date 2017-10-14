@@ -257,6 +257,14 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        if(currentCard.matches("0000")){
+            Toast.makeText(this, "Please bind a card to wallet.", Toast.LENGTH_LONG).show();
+            /*FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.frame_main, fragmentChangeCard.newInstance());
+            transaction.commit();*/
+        }
+
     }
 
 }
