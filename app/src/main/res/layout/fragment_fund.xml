@@ -38,11 +38,9 @@
             android:id="@+id/tvCardEnding"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginTop="32dp"
-            android:text="CardType ending in Ending"
-            app:layout_constraintLeft_toLeftOf="parent"
+            android:text="Card ending:"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/sbTopUpValue" />
 
@@ -70,6 +68,16 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btnTopUp" />
+
+        <TextView
+            android:id="@+id/tvCardType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="32dp"
+            android:text="Card type:"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/sbTopUpValue" />
     </android.support.constraint.ConstraintLayout>
 
 </FrameLayout>
