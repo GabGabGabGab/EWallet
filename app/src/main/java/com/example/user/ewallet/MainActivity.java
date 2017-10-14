@@ -15,6 +15,8 @@ public class MainActivity extends AppCompatActivity {
     public static String walletID;
     public static double balance;
     public static int loyaltyPoint;
+    public static String loginPassword;
+    public static int currentCard;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
         walletID = extras.getString("walletID");
         balance = extras.getDouble("balance");
         loyaltyPoint = extras.getInt("loyaltyPoint");
+        loginPassword = extras.getString("loginPassword");
+        currentCard = extras.getInt("currentCard");
 
         //Manually displaying the first fragment - one time only
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -76,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
         transaction.commit();
     }
 
+    //For Cancel button in change card UI
     public void goAddFund(View v){
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();

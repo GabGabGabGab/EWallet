@@ -15,6 +15,8 @@ public class fragmentWallet extends Fragment {
 
     TextView tvBalance;
     public static boolean allowRefresh;
+    String loginPassword;
+    int currentCard;
 
     public static fragmentWallet newInstance() {
         fragmentWallet fragment = new fragmentWallet();
