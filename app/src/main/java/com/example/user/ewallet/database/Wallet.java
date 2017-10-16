@@ -9,12 +9,16 @@ public class Wallet {
     private double Balance;
     private int LoyaltyPoint;
     private String LoginPassword;
+    private String CurrentCard;
+    private String CurrentCardType;
 
-    public Wallet (String WalletID, double Balance, int LoyaltyPoint, String LoginPassword){
+    public Wallet (String WalletID, double Balance, int LoyaltyPoint, String LoginPassword, String CurrentCard, String CurrentCardType){
         this.setWalletID(WalletID);
         this.setBalance(Balance);
         this.setLoyaltyPoint(LoyaltyPoint);
         this.setLoginPassword(LoginPassword);
+        this.setCurrentCard(CurrentCard);
+        this.setCurrentCardType(CurrentCardType);
     }
 
     public String getWalletID() {
@@ -47,5 +51,21 @@ public class Wallet {
 
     public void setLoginPassword(String loginPassword) {
         LoginPassword = loginPassword;
+    }
+
+    public String getCurrentCard() {
+        return CurrentCard;
+    }
+
+    public void setCurrentCard(String currentCard) {
+        CurrentCard = currentCard;
+    }
+
+    public String getCurrentCardType() {
+        return CurrentCardType;
+    }
+
+    public void setCurrentCardType(String currentCardType) {
+        CurrentCardType = currentCardType;
     }
 }

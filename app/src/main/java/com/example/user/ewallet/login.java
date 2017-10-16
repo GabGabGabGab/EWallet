@@ -55,7 +55,8 @@ public class login extends AppCompatActivity {
         else if(LoginPassword.matches("")){
             Toast.makeText(this, "Please fill in password.", Toast.LENGTH_SHORT).show();
         }
-        checkUser(this, "https://gabriellb-wp14.000webhostapp.com/select_user.php", WalletID,LoginPassword);
+        //checkUser(this, "https://gabriellb-wp14.000webhostapp.com/select_user.php", WalletID,LoginPassword);
+        checkUser(this, "https://martpay.000webhostapp.com/gab_select_user.php", WalletID,LoginPassword);
 
     }
 
@@ -107,7 +108,7 @@ public class login extends AppCompatActivity {
                                     }
                                 } else if (success == 2) {
                                     //Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
-                                    err+="User not found.";
+                                    err+="Wallet not found.";
                                     if (pDialog.isShowing())
                                         pDialog.dismiss();
                                 } else{
