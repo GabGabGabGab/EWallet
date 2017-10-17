@@ -1,5 +1,7 @@
 package com.example.user.ewallet.database;
 
+import com.stripe.android.model.Card;
+
 /**
  * Created by Gabb on 13/10/2017.
  */

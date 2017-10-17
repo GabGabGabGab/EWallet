@@ -20,6 +20,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.stripe.android.model.Card;
+import com.stripe.android.view.CardInputWidget;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -34,6 +36,11 @@ public class MainActivity extends AppCompatActivity {
     public static String loginPassword;
     public static String currentCard;
     public static String currentCardType;
+    String updateCurrentCard;
+    String updateCurrentCardType;
+
+
+    Card cardToSave;
 
     TextView tvBalance;
 
@@ -96,12 +103,26 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void goChangeCard(View v){
-        //Intent intent = new Intent(this, fragmentChangeCard.class);
-        //startActivity(intent);
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        Intent intent = new Intent(this, changecard.class);
+        startActivity(intent);
+        /*FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.frame_main, fragmentChangeCard.newInstance());
-        transaction.commit();
+        transaction.commit();*/
     }
+
+    //Confirm bind/change card
+    /*public void onConfirmClick(){
+        //View view =  inflater.inflate(R.layout.fragment_changecard, container, false);
+        CardInputWidget mCardInputWidget = (CardInputWidget) findViewById(R.id.card_input_widget2);
+        cardToSave = mCardInputWidget.getCard();
+
+        if (cardToSave != null) {
+            updateCurrentCard = cardToSave.getNumber();
+        }
+
+
+
+    }*/
 
     //For Cancel button in change card UI
     public void goAddFund(View v){
