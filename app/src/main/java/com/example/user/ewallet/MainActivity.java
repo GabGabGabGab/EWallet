@@ -111,18 +111,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //Confirm bind/change card
-    /*public void onConfirmClick(){
+    public void onConfirmClick2(View v){
         //View view =  inflater.inflate(R.layout.fragment_changecard, container, false);
         CardInputWidget mCardInputWidget = (CardInputWidget) findViewById(R.id.card_input_widget2);
         cardToSave = mCardInputWidget.getCard();
 
         if (cardToSave != null) {
             updateCurrentCard = cardToSave.getNumber();
+            TextView textView2 = findViewById(R.id.textView2);
+            textView2.setText(updateCurrentCard);
         }
 
 
 
-    }*/
+    }
 
     public void goQRPassword(View v){
 

@@ -2,6 +2,7 @@ package com.example.user.ewallet;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -29,7 +30,7 @@ public class QRPassword extends AppCompatActivity {
 
     }
 
-    public void onProceedClick(){
+    public void onProceedClick(View v){
 
         QRpw = etQRpw.getText().toString();
         if (QRpw == passedQRpw){
