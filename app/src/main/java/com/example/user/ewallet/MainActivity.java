@@ -26,6 +26,7 @@ import com.stripe.android.view.CardInputWidget;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -43,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
     String updateCurrentCardType;
 
     double balanceToCheck, transferAmount;
-    String ttlPurchaseAmt ="5.0";
+    String ttlPurchaseAmt = "5.0";
 
     Card cardToSave;
 
@@ -176,8 +177,34 @@ public class MainActivity extends AppCompatActivity {
                     String balanceToChk = arr[1];
                     String date = arr[2];
                     String receiverID = walletID;
+
+                    //get current date time
+                    java.util.Date dt = new java.util.Date();
+                    java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    String timeNow = sdf.format(dt);
+
+                    java.util.Date d1 = null;
+                    java.util.Date d2 = null;
+
+                    try {
+                        d1 = sdf.parse(date);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    try {
+                        d2 = sdf.parse(timeNow);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+
+                    //Calculate time diff
+                    long diff = d2.getTime() - d1.getTime();
+                    long diffSeconds = diff / 1000;
+
                     if (giverID.equals(receiverID)) {
                         Toast.makeText(this, "You cannot transfer money to yourself.", Toast.LENGTH_SHORT).show();
+                    } else if (diffSeconds>60) {
+                        Toast.makeText(this, "Code expired, generate code again.", Toast.LENGTH_SHORT).show();
                     } else {
                         //String combined = "Sender: " + giver + "\nAmount: RM" + amount + "\n Time: " + date+"\n Receiver " + receiver;
                         //Toast.makeText(this, "Scanned: " + combined, Toast.LENGTH_LONG).show();
@@ -196,7 +223,7 @@ public class MainActivity extends AppCompatActivity {
                                 e.printStackTrace();
                                 Toast.makeText(getApplicationContext(), "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
                             }
-                        }else if(balanceToCheck < ttlPurchaseAmount){
+                        } else if (balanceToCheck < ttlPurchaseAmount) {
                             Toast.makeText(this, "Insufficient balance.", Toast.LENGTH_SHORT).show();
 
                         }
@@ -263,7 +290,7 @@ public class MainActivity extends AppCompatActivity {
                                 if (success == 1) {
                                     Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
                                     //balance += Double.parseDouble(ttlPurchaseAmt);
-                                    balance +=Double.parseDouble(ttlPurchaseAmt);
+                                    balance += Double.parseDouble(ttlPurchaseAmt);
                                     FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                                     transaction.replace(R.id.frame_main, fragmentWallet.newInstance());
                                     transaction.commit();
