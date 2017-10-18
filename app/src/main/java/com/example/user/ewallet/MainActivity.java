@@ -42,6 +42,8 @@ public class MainActivity extends AppCompatActivity {
     String updateCurrentCard;
     String updateCurrentCardType;
 
+    double balanceToCheck, transferAmount;
+    String ttlPurchaseAmt ="5.0";
 
     Card cardToSave;
 
@@ -105,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void goChangeCard(View v){
+    public void goChangeCard(View v) {
         Intent intent = new Intent(this, changecard.class);
         startActivity(intent);
         /*FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -114,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //Confirm bind/change card
-    public void onConfirmClick2(View v){
+    public void onConfirmClick2(View v) {
         //View view =  inflater.inflate(R.layout.fragment_changecard, container, false);
         CardInputWidget mCardInputWidget = (CardInputWidget) findViewById(R.id.card_input_widget2);
         cardToSave = mCardInputWidget.getCard();
@@ -126,25 +128,182 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-
-    }
-
-    public void goQRPassword(View v){
-
-        Intent intent = new Intent(this, QRPassword.class);
-        intent.putExtra("giverID",walletID);
-        intent.putExtra("balanceToChk",balance);
-        intent.putExtra("QRpw",loginPassword);
-        startActivity(intent);
     }
 
     //For Cancel button in change card UI
-    public void goAddFund(View v){
+    public void goAddFund(View v) {
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.frame_main, fragmentFund.newInstance());
         transaction.commit();
     }
+
+    /*
+
+        Transfer QR Code part
+
+    */
+
+    public void goQRPassword(View v) {
+
+        Intent intent = new Intent(this, QRPassword.class);
+        intent.putExtra("giverID", walletID);
+        intent.putExtra("balanceToChk", balance);
+        intent.putExtra("QRpw", loginPassword);
+        startActivity(intent);
+    }
+
+    public void startScan(View view) {
+        new IntentIntegrator(this).initiateScan(); // `this` is the current Activity
+    }
+
+    // Get the results:
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        /*if (requestCode == TOP_UP_REQUEST) {
+            if (resultCode == RESULT_OK) {
+
+            }
+        } else { */
+        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        if (result != null) {
+            if (result.getContents() == null) {
+                Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show();
+            } else {
+                String[] arr = result.getContents().split(",");
+                if (!arr[0].equals("orderRetrieval")) {
+                    String giverID = arr[0];
+                    String balanceToChk = arr[1];
+                    String date = arr[2];
+                    String receiverID = walletID;
+                    if (giverID.equals(receiverID)) {
+                        Toast.makeText(this, "You cannot transfer money to yourself.", Toast.LENGTH_SHORT).show();
+                    } else {
+                        //String combined = "Sender: " + giver + "\nAmount: RM" + amount + "\n Time: " + date+"\n Receiver " + receiver;
+                        //Toast.makeText(this, "Scanned: " + combined, Toast.LENGTH_LONG).show();
+
+                        //double balanceToCheck, ttlPurchaseAmt, transferAmount;
+                        balanceToCheck = Double.parseDouble(balanceToChk);
+                        Double ttlPurchaseAmount = Double.parseDouble(ttlPurchaseAmt);
+                        if (balanceToCheck > ttlPurchaseAmount) {
+                            //Double.toString(ttlPurchaseAmt);
+                            try {
+                                fragmentWallet.allowRefresh = true;
+                                insertTransfer(this, "https://martpay.000webhostapp.com/gab_insert_transfer.php", giverID, ttlPurchaseAmt, date, receiverID);
+
+                                //end need change de part
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                Toast.makeText(getApplicationContext(), "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                            }
+                        }else if(balanceToCheck < ttlPurchaseAmount){
+                            Toast.makeText(this, "Insufficient balance.", Toast.LENGTH_SHORT).show();
+
+                        }
+                    }
+                } /*else {
+                    String listID = arr[2];
+                    String date = arr[1];
+                    String seller = arr[4];
+                    double price = Double.parseDouble(arr[3]);
+                    String buyer = username;
+                    if (seller.equals(buyer)) {
+                        Toast.makeText(this, "You cannot buy your own item.", Toast.LENGTH_SHORT).show();
+                    } else if (price > balance) {
+                        Toast.makeText(this, "You cannot afford it.", Toast.LENGTH_SHORT).show();
+                    } else {
+
+                        //String combined = "Sender: " + giver + "\nAmount: RM" + amount + "\n Time: " + date+"\n Receiver " + receiver;
+                        String combined = result.getContents();
+                        Toast.makeText(this, "Scanned: " + combined, Toast.LENGTH_LONG).show();
+                        try {
+                            WalletFragment.allowRefresh = true;
+                            insertTransaction(this, "https://martpay.000webhostapp.com/insert_transaction.php", date, buyer, listID);
+
+                            //end need change de part
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            Toast.makeText(getApplicationContext(), "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    }
+
+                }   */
+
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+        //closing of ELSE }
+
+    }
+
+    /*
+
+        Misc
+
+    */
+
+    public void insertTransfer(Context context, String url, final String giverID, final String ttlPurchaseAmt, final String date, final String receiverID) {
+        //mPostCommentResponse.requestStarted();
+        RequestQueue queue = Volley.newRequestQueue(context);
+
+        //Send data
+        try {
+            StringRequest postRequest = new StringRequest(
+                    Request.Method.POST,
+                    url,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            JSONObject jsonObject;
+                            try {
+                                jsonObject = new JSONObject(response);
+                                int success = jsonObject.getInt("success");
+                                String message = jsonObject.getString("message");
+                                if (success == 1) {
+                                    Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+                                    //balance += Double.parseDouble(ttlPurchaseAmt);
+                                    balance +=Double.parseDouble(ttlPurchaseAmt);
+                                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                                    transaction.replace(R.id.frame_main, fragmentWallet.newInstance());
+                                    transaction.commit();
+                                } else {
+                                    Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Toast.makeText(getApplicationContext(), "Error. " + error.toString(), Toast.LENGTH_LONG).show();
+                        }
+                    }) {
+                @Override
+                protected Map<String, String> getParams() {
+                    Map<String, String> params = new HashMap<>();
+                    params.put("giverID", giverID);
+                    params.put("amount", ttlPurchaseAmt);
+                    params.put("date", date);
+                    params.put("receiverID", receiverID);
+                    return params;
+                }
+
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<>();
+                    params.put("Content-Type", "application/x-www-form-urlencoded");
+                    return params;
+                }
+            };
+            queue.add(postRequest);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
     public void checkBalance(Context context, String url) {
         //mPostCommentResponse.requestStarted();
@@ -247,7 +406,7 @@ public class MainActivity extends AppCompatActivity {
                                     TextView tvCardType = (TextView) findViewById(R.id.tvCardType);
                                     TextView tvCardEnding = (TextView) findViewById(R.id.tvCardEnding);
                                     //if (tvBalance != null)
-                                        //tvBalance.setText(String.format("RM %.2f", MainActivity.balance));
+                                    //tvBalance.setText(String.format("RM %.2f", MainActivity.balance));
                                     if (tvCardType != null)
                                         tvCardType.setText(tvCardType.getText().toString() + MainActivity.currentCardType);
                                     if (tvCardEnding != null)
@@ -295,7 +454,7 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        if(currentCard.matches("TBD")){
+        if (currentCard.matches("TBD")) {
             Toast.makeText(this, "Please bind a card to wallet.", Toast.LENGTH_LONG).show();
             /*FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.frame_main, fragmentChangeCard.newInstance());
