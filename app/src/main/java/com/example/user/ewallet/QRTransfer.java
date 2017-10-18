@@ -8,7 +8,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.zxing.qrcode.encoder.QRCode;
+import net.glxn.qrgen.android.QRCode;
+//import com.google.zxing.qrcode.encoder.QRCode;
+
 
 public class QRTransfer extends AppCompatActivity {
 
@@ -31,7 +33,7 @@ public class QRTransfer extends AppCompatActivity {
         balanceToChk = extras.getDouble("balanceToChk");
 
         tvBalanceToChk = findViewById(R.id.tvBalanceToChk);
-        tvBalanceToChk.setText(String.format("RM %.2f" ,QRTransfer.balanceToChk));
+        tvBalanceToChk.setText(String.format("Balance: RM %.2f" ,QRTransfer.balanceToChk));
 
         //get date time
         java.util.Date dt = new java.util.Date();
@@ -39,10 +41,10 @@ public class QRTransfer extends AppCompatActivity {
         String currentTime = sdf.format(dt);
 
         //convert to qr
-        /*String info = giverID + "," + etTValue.getText().toString() + "," + currentTime;
+        String info = giverID + "," + balanceToChk + "," + currentTime;
         Bitmap myBitmap = QRCode.from(info).bitmap();
         ImageView myImage = (ImageView) findViewById(R.id.ivQR);
-        myImage.setImageBitmap(myBitmap);*/
+        myImage.setImageBitmap(myBitmap);
 
     }
 
