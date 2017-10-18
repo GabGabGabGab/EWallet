@@ -29,6 +29,9 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
+
 public class MainActivity extends AppCompatActivity {
     public static String walletID;
     public static double balance;
