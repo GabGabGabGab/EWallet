@@ -33,7 +33,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".changecard" />
-        <activity android:name=".QRPassword"></activity>
+        <activity android:name=".QRPassword" />
+        <activity android:name=".QRTransfer"></activity>
     </application>
 
 </manifest>

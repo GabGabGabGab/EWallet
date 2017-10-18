@@ -129,6 +129,8 @@ public class MainActivity extends AppCompatActivity {
     public void goQRPassword(View v){
 
         Intent intent = new Intent(this, QRPassword.class);
+        intent.putExtra("giverID",walletID);
+        intent.putExtra("balanceToChk",balance);
         intent.putExtra("QRpw",loginPassword);
         startActivity(intent);
     }
