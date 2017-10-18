@@ -124,6 +124,13 @@ public class MainActivity extends AppCompatActivity {
 
     }*/
 
+    public void goQRPassword(View v){
+
+        Intent intent = new Intent(this, QRPassword.class);
+        intent.putExtra("QRpw",loginPassword);
+        startActivity(intent);
+    }
+
     //For Cancel button in change card UI
     public void goAddFund(View v){
 

@@ -32,7 +32,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".changecard"></activity>
+        <activity android:name=".changecard" />
+        <activity android:name=".QRPassword"></activity>
     </application>
 
 </manifest>
