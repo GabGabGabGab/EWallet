@@ -34,6 +34,8 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 
+import android.content.Intent;
+
 import static com.example.user.ewallet.R.id.menulistview;
 
 
@@ -53,6 +55,7 @@ public class activity_payment extends Fragment {
     Button btnTotal;
     Double itemPrice;
     TextView Total;
+    String totalToPass;
 
 
 
@@ -120,6 +123,9 @@ public class activity_payment extends Fragment {
             }
 
             Total.setText(Double.toString(total));
+                totalToPass = Total.getText().toString();
+                Intent intent = new Intent(v.getContext(), MainActivity.class);
+                intent.putExtra("ttlPurchaseAmt",totalToPass);
         }});
 
         return v;
